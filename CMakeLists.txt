@@ -16,6 +16,7 @@ execute_process(COMMAND git log --pretty=format:%h -n 1
 execute_process(COMMAND git config --get remote.origin.url
                 OUTPUT_VARIABLE GIT_REMOTE
                 ERROR_QUIET)
+string(REPLACE "\n" "" GIT_REMOTE ${GIT_REMOTE})
 
 set(EXEC ${PROJECT_NAME}-${GIT_VERSION})
 
@@ -46,20 +47,24 @@ set(sources
   src/usbd_cdc_if.c
   src/usbd_conf.c
   src/usbd_desc.c
+  src/startup_stm32g431xx.s
+  Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c
+  Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c
+  Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c 
+  Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c
   )
-file(GLOB Middlewares/ST/STM32_USB_Device_Library/Core/Src/*.c)
-file(GLOB Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/*.c)
+file(GLOB hal Drivers/STM32G4xx_HAL_Driver/Src/*.c)
 
 # generate binary file from the list of sources
-add_executable (${EXEC} ${sources})
+add_executable (${EXEC} ${sources} ${usb_core} ${usb_class} ${hal})
 
-target_compile_definitions(${EXEC} PRIVATE
+target_compile_definitions(${EXEC} PUBLIC
     -D HSI48_VALUE=48000000 
     -D HSE_VALUE=16000000
     -D INTERNAL_OSCILLATOR
     -D STM32G431xx
-    -D GIT_VERSION=${GIT_VERSION}
-    -D GIT_REMOTE=${GIT_REMOTE}
+    -D GIT_VERSION="${GIT_VERSION}"
+    -D GIT_REMOTE="${GIT_REMOTE}"
     )
 
 set(compile_options
@@ -73,7 +78,7 @@ set(compile_options
     )
     
 set(link_options
-    -TSTM32G431CBTx_FLASH.ld
+    -T../STM32G431CBTx_FLASH.ld
     -mcpu=cortex-m4
     -mthumb
     -mfloat-abi=soft
