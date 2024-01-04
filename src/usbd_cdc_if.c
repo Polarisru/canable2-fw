@@ -21,6 +21,7 @@ static int8_t CDC_DeInit_FS(void);
 static int8_t CDC_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length);
 static int8_t CDC_Receive_FS(uint8_t* pbuf, uint32_t *Len);
 void cdc_process(void);
+void cdc_transmit(uint8_t* buf, uint16_t len);
 
 
 USBD_CDC_ItfTypeDef USBD_Interface_fops_FS =
@@ -212,9 +213,9 @@ void cdc_process(void)
 		{
 		   if (rxbuf.buf[rxbuf.tail][i] == '\r')
 		   {
-			   //int8_t result =
-			   slcan_parse_str(slcan_str, slcan_str_index);
-
+			   int8_t result = slcan_parse_str(slcan_str, slcan_str_index);
+         if (result == 1)
+           cdc_transmit((uint8_t*)"O\r", 2);
 			   // Success
 			   //if(result == 0)
 			   //    CDC_Transmit_FS("\n", 1);

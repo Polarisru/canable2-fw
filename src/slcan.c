@@ -154,12 +154,12 @@ int32_t slcan_parse_str(uint8_t *buf, uint8_t len)
     	// Open channel
 		case 'O':
 			can_enable();
-			return 0;
+			return 1;
 
 		// Close channel
 		case 'C':
 	        can_disable();
-	        return 0;
+	        return 1;
 
 	    // Set nominal bitrate
 		case 'S':
@@ -171,7 +171,7 @@ int32_t slcan_parse_str(uint8_t *buf, uint8_t len)
 	    	}
 
 			can_set_bitrate(buf[1]);
-	        return 0;
+	        return 1;
 
 	    // Set data bitrate
 		case 'Y':
@@ -241,7 +241,13 @@ int32_t slcan_parse_str(uint8_t *buf, uint8_t len)
 			cdc_transmit((uint8_t*)errstr, strlen(errstr));
 	        return 0;
 		}
-        
+    
+    case 'F':
+    {
+      // Fake status
+      cdc_transmit((uint8_t*)"F00\n", 4);
+      return 0;
+    }
 
 		// Transmit data frame command
 		case 'T':
