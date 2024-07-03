@@ -57,6 +57,8 @@ system and add the `bin` folder to your PATH.
 
 Your Linux distribution may also have a prebuilt package for `arm-none-eabi-gcc`, check your distro's repositories to see if a build exists. Simply compile by running `make`. 
 
+If you prefer CMake, a script is generated and added to the project.
+
 ## Flashing with the Bootloader (Linux only)
 
 Plug in your CANable2 while pressing down the BOOT button. The blue LED should be dimly illuminated. Next, type `make flash` and your CANable will be updated to the latest firwmare. Unplug/replug the device after moving the boot jumper back, and your CANable will be up and running.
