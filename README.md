@@ -59,6 +59,7 @@ Your Linux distribution may also have a prebuilt package for `arm-none-eabi-gcc`
 
 If you prefer CMake, a script is generated and added to the project. Usage (Windows): 
 > cmake -G "MinGW Makefiles" . -Bbuild
+> 
 > cmake --build ./build
 
 ## Flashing with the Bootloader (Linux only)
