@@ -57,7 +57,9 @@ system and add the `bin` folder to your PATH.
 
 Your Linux distribution may also have a prebuilt package for `arm-none-eabi-gcc`, check your distro's repositories to see if a build exists. Simply compile by running `make`. 
 
-If you prefer CMake, a script is generated and added to the project.
+If you prefer CMake, a script is generated and added to the project. Usage (Windows): 
+> cmake -G "MinGW Makefiles" . -Bbuild
+> cmake --build ./build
 
 ## Flashing with the Bootloader (Linux only)
 
