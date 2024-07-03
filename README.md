@@ -1,6 +1,6 @@
-# CANable 2.0 Firmware
+# CANable 2.0 Firmware compatible with DroneCAN GUI
 
-This repository contains sources for the slcan CANable 2.0 firmware. This firmware implements non-standard slcan commands to support CANFD messaging alongside a LAWICEL-style command set.
+This repository contains sources for the slcan CANable 2.0 firmware. This firmware implements non-standard slcan commands to support CANFD messaging alongside a LAWICEL-style command set. Initial firmware was updated to be compatible with DroneCAN GUI tool.
 
 ## Supported Commands
 
@@ -46,7 +46,7 @@ Note: CANFD message lengths are as follows (expressed in hexadecimal):
 
 Note: Channel configuration commands must be sent before opening the channel. The channel must be opened before transmitting frames.
 
-This firmware currently does not provide any ACK/NACK feedback for serial commands.
+This firmware currently DOES provide ACK/NACK feedback for following serial commands: O/C/Sx.
 
 ## Building
 
@@ -57,7 +57,7 @@ system and add the `bin` folder to your PATH.
 
 Your Linux distribution may also have a prebuilt package for `arm-none-eabi-gcc`, check your distro's repositories to see if a build exists. Simply compile by running `make`. 
 
-## Flashing with the Bootloader
+## Flashing with the Bootloader (Linux only)
 
 Plug in your CANable2 while pressing down the BOOT button. The blue LED should be dimly illuminated. Next, type `make flash` and your CANable will be updated to the latest firwmare. Unplug/replug the device after moving the boot jumper back, and your CANable will be up and running.
 
